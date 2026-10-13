@@ -19,10 +19,6 @@ MODEL_PATH = "churn_model.pkl"
 DATA_PATH = "customer_churn.csv"
 
 @st.cache_resource
-
-@st.cache_resource
-
-@st.cache_resource
 def load_model():
     import os
     import gdown
@@ -46,7 +42,7 @@ def load_model():
 st.title("📊 Customer Churn Prediction")
 st.caption("Machine Learning CA4 Project | Customer Retention Analytics")
 
-model = load_model(MODEL_PATH)
+model = load_model()
 df = load_data(DATA_PATH)
 
 expected_features = list(getattr(model, "feature_names_in_", []))

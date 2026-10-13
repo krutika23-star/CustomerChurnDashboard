@@ -19,13 +19,27 @@ MODEL_PATH = "churn_model.pkl"
 DATA_PATH = "customer_churn.csv"
 
 @st.cache_resource
-def load_model(path):
-    return joblib.load(path)
 
-@st.cache_data
-def load_data(path):
-    return pd.read_csv(path)
+@st.cache_resource
+def load_model():
+    import gdown
 
+    model_path = "churn_model.pkl"
+    file_id = "1l7KLmfvGhENbzozphld5a3FcP4ViIokj"
+
+    if not os.path.exists(model_path):
+        downloaded_file = gdown.download(
+            f"https://drive.google.com/uc?id={file_id}",
+            model_path,
+            quiet=False
+        )
+
+        if not downloaded_file or not os.path.exists(model_path):
+            raise RuntimeError(
+                "Model download failed. Check Google Drive sharing permissions."
+            )
+
+    return joblib.load(model_path)
 st.title("📊 Customer Churn Prediction")
 st.caption("Machine Learning CA4 Project | Customer Retention Analytics")
 

@@ -119,12 +119,15 @@ if page == "Overview":
     st.subheader("Dataset Preview")
     st.dataframe(df.head(20), use_container_width=True)
 
+
 elif page == "Feature Analysis":
     st.subheader("Interactive Feature Analysis")
-   feature_options = [
-    c for c in df.columns
-    if c not in [target_col, "customerID", "customerId", "CustomerID"]
-]
+
+    feature_options = [
+        c for c in df.columns
+        if c not in [target_col, "customerID", "customerId", "CustomerID"]
+    ]
+
     if not feature_options:
         st.warning("No feature columns are available.")
     else:
@@ -139,10 +142,14 @@ elif page == "Feature Analysis":
                     title=f"{feature} Distribution by Churn Status"
                 )
             else:
-                fig = px.histogram(df, x=feature, title=f"{feature} Distribution")
+                fig = px.histogram(
+                    df, x=feature,
+                    title=f"{feature} Distribution"
+                )
         else:
             plot_df = df.copy()
             plot_df[feature] = plot_df[feature].fillna("Missing").astype(str)
+
             if target_col:
                 counts = (
                     plot_df.groupby([feature, target_col], dropna=False)
@@ -150,15 +157,19 @@ elif page == "Feature Analysis":
                 )
                 fig = px.bar(
                     counts, x=feature, y="Customers", color=target_col,
-                    barmode="group", title=f"{feature} by Churn Status"
+                    barmode="group",
+                    title=f"{feature} by Churn Status"
                 )
             else:
                 counts = plot_df[feature].value_counts().reset_index()
                 counts.columns = [feature, "Customers"]
-                fig = px.bar(counts, x=feature, y="Customers", title=f"{feature} Distribution")
+                fig = px.bar(
+                    counts, x=feature, y="Customers",
+                    title=f"{feature} Distribution"
+                )
+
         st.plotly_chart(fig, use_container_width=True)
 
-elif page == "Model Evaluation":
     st.subheader("Model Evaluation")
     st.warning(
         "The final test metrics shown in your Colab were: Accuracy 78.28%, Precision 61.81%, Recall 47.59%, F1-score 53.78%. "

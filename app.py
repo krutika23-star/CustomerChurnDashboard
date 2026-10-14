@@ -121,7 +121,10 @@ if page == "Overview":
 
 elif page == "Feature Analysis":
     st.subheader("Interactive Feature Analysis")
-    feature_options = [c for c in df.columns if c != target_col]
+   feature_options = [
+    c for c in df.columns
+    if c not in [target_col, "customerID", "customerId", "CustomerID"]
+]
     if not feature_options:
         st.warning("No feature columns are available.")
     else:

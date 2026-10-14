@@ -120,6 +120,7 @@ if page == "Overview":
     st.dataframe(df.head(20), use_container_width=True)
 
 
+
 elif page == "Feature Analysis":
     st.subheader("Interactive Feature Analysis")
 
@@ -170,30 +171,44 @@ elif page == "Feature Analysis":
 
         st.plotly_chart(fig, use_container_width=True)
 
+
+elif page == "Model Evaluation":
     st.subheader("Model Evaluation")
-    st.warning(
-        "The final test metrics shown in your Colab were: Accuracy 78.28%, Precision 61.81%, Recall 47.59%, F1-score 53.78%. "
-        "These are entered as the existing notebook results; verify they correspond to the same saved pipeline and test split before submission."
-    )
+
     metrics = [
         ("Accuracy", 78.28),
         ("Precision", 61.81),
         ("Recall", 47.59),
         ("F1-score", 53.78),
     ]
+
     cols = st.columns(4)
     for col, (label, value) in zip(cols, metrics):
         col.metric(label, f"{value:.2f}%")
 
-    st.markdown("#### Interpretation")
+    st.markdown("### Interpretation")
     st.write(
-        "The model has 78.28% overall accuracy. Recall of 47.59% means the model identifies fewer than half of the actual churners on the reported test set, so improving churn detection is a possible next step."
-    )
-    st.caption(
-        "A confusion matrix is not shown here because the test labels and predictions were not exported with the model. Do not infer its counts from metrics."
+        "Accuracy measures overall correctness. Precision measures "
+        "the reliability of positive churn predictions. Recall measures "
+        "how many actual churners were identified. F1-score combines "
+        "precision and recall."
     )
 
+    st.info(
+        "These are the previously reported Colab test results. "
+        "Verify that they match the saved model and test split."
+    )
+
+
 elif page == "Live Prediction":
+    st.subheader("Live Customer Churn Prediction")
+    st.write(
+        "Enter customer details and click Predict. "
+        "The app uses the saved trained pipeline."
+    )
+
+    # Keep your existing prediction form and its code here.
+
     st.subheader("Live Customer Churn Prediction")
     st.write("Enter customer details and click Predict. The app uses the saved trained pipeline.")
 

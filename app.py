@@ -39,6 +39,18 @@ def load_model():
         st.stop()
 
     return joblib.load(model_path)
+    
+@st.cache_data
+def load_data(path):
+    import os
+    import pandas as pd
+
+    if not os.path.exists(path):
+        st.error(f"Dataset file not found: {path}")
+        st.stop()
+
+    return pd.read_csv(path)
+
 st.title("📊 Customer Churn Prediction")
 st.caption("Machine Learning CA4 Project | Customer Retention Analytics")
 
